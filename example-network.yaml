@@ -1,0 +1,180 @@
+# Copyright 2022 Ciena Corporation
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# 	http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: ciena.io/v1
+kind: Network
+metadata:
+  name: example-network
+spec:
+  appliances:
+    - "https://raw.githubusercontent.com/GNS3/gns3-registry/master/appliances/openvswitch.gns3a"
+  nodes:
+    - name: internet-a
+      type: nat
+      x: -300
+      y: -160
+    - name: internet-b
+      type: nat
+      x: 220
+      y: -160
+    - name: gw-a
+      template: "Open vSwitch"
+      x: -90
+      y: -150
+    - name: gw-b
+      template: "Open vSwitch"
+      x: 110
+      y: -150
+    - name: spine-a
+      type: ethernet_switch
+      x: -100
+      y: -50
+    - name: spine-b
+      type: ethernet_switch
+      x: 100
+      y: -50
+    - name: leaf-a
+      type: ethernet_switch
+      x: -200
+      y: 50
+    - name: leaf-b
+      type: ethernet_switch
+      x: 0
+      y: 50
+    - name: leaf-c
+      type: ethernet_switch
+      x: 200
+      y: 50
+    - name: pc-a
+      type: vpcs
+      x: -200
+      y: 150
+      config:
+        name: pc-a
+    - name: pc-b
+      type: vpcs
+      x: 0
+      y: 150
+      config:
+        name: pc-b
+    - name: pc-c
+      type: vpcs
+      x: 200
+      y: 150
+      config:
+        name: pc-c
+  links:
+    - aEnd:
+        name: internet-a
+        adapter: 0
+        port: 0
+      zEnd:
+        name: gw-a
+        adapter: 7
+        port: 0
+    - aEnd:
+        name: internet-b
+        adapter: 0
+        port: 0
+      zEnd:
+        name: gw-b
+        adapter: 7
+        port: 0
+    - aEnd:
+        name: gw-a
+        adapter: 0
+        port: 0
+      zEnd:
+        name: spine-a
+        adapter: 0
+        port: 7
+    - aEnd:
+        name: gw-b
+        adapter: 1
+        port: 0
+      zEnd:
+        name: spine-b
+        adapter: 0
+        port: 7
+    - aEnd:
+        name: spine-a
+        adapter: 0
+        port: 0
+      zEnd:
+        name: leaf-a
+        adapter: 0
+        port: 5
+    - aEnd:
+        name: spine-a
+        adapter: 0
+        port: 1
+      zEnd:
+        name: leaf-b
+        adapter: 0
+        port: 5
+    - aEnd:
+        name: spine-a
+        adapter: 0
+        port: 2
+      zEnd:
+        name: leaf-c
+        adapter: 0
+        port: 5
+    - aEnd:
+        name: spine-b
+        adapter: 0
+        port: 0
+      zEnd:
+        name: leaf-a
+        adapter: 0
+        port: 6
+    - aEnd:
+        name: spine-b
+        adapter: 0
+        port: 1
+      zEnd:
+        name: leaf-b
+        adapter: 0
+        port: 6
+    - aEnd:
+        name: spine-b
+        adapter: 0
+        port: 2
+      zEnd:
+        name: leaf-c
+        adapter: 0
+        port: 6
+    - aEnd:
+        name: leaf-a
+        adapter: 0
+        port: 0
+      zEnd:
+        name: pc-a
+        adapter: 0
+        port: 0
+    - aEnd:
+        name: leaf-b
+        adapter: 0
+        port: 0
+      zEnd:
+        name: pc-b
+        adapter: 0
+        port: 0
+    - aEnd:
+        name: leaf-c
+        adapter: 0
+        port: 0
+      zEnd:
+        name: pc-c
+        adapter: 0
+        port: 0

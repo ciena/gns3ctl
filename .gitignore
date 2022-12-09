@@ -1,0 +1,5 @@
+*.swp
+*~
+gns3_controller.conf
+gns3ctl
+/gns3ctl-*
